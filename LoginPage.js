@@ -1,9 +1,9 @@
 
 import { useState, useRef } from 'react'
 import { Container, Row, Col, Form, Card, Button } from 'react-bootstrap';
-import {useDispatch} from 'react-redux'
-import  {authActions}  from './store/authentication';
-import {useHistory} from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+import { authActions } from './store/authentication';
+import { useHistory } from 'react-router-dom';
 
 const Login = () => {
 
@@ -40,7 +40,7 @@ const Login = () => {
             setIsLoading(false)
             if (response.ok) {
                 const data = await response.json()
-                dispatch(authActions.login({token : data.idToken, email : data.email}))
+                dispatch(authActions.login({ token: data.idToken, email: data.email }))
                 history.replace('/welcome')
                 console.log(data)
             } else {
@@ -74,7 +74,7 @@ const Login = () => {
         }
     }
 
-    const forgetHandler = () =>  {  
+    const forgetHandler = () => {
         history.push('/forget')
     }
 
