@@ -8,6 +8,7 @@ import ComposeMail from './components/ComposeMail';
 import Header from './components/Header';
 import { useSelector } from 'react-redux';
 import { authActions } from './components/store/authentication';
+import Inbox from './components/Inbox';
 function App() {
   const isLoggedIn = useSelector(state => state.authentication.isAuthenticated)
 
@@ -34,6 +35,10 @@ function App() {
 
         {isLoggedIn && <Route path='/compose'>
           <ComposeMail />
+        </Route>}
+
+        {isLoggedIn && <Route path='/inbox'>
+          <Inbox />
         </Route>}
 
       </Switch>

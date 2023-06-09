@@ -1,14 +1,17 @@
 import { Form, Container, Button } from 'react-bootstrap'
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { useState, useRef } from 'react'
+import { useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { responsivePropType } from 'react-bootstrap/esm/createUtilityClasses';
 
 
 const ComposeMail = () => {
     const [editorState, setEditorState] = useState()
     const toInputRef = useRef()
     const subjectInputref = useRef()
-
+    const userEmail = useSelector(state => state.authentication.userEmail)
+    const senderEmail = userEmail.replace(/[@.]/g, '')
 
     const onEditorStateChange = (newEditor) => {
         setEditorState(newEditor)
@@ -24,16 +27,59 @@ const ComposeMail = () => {
             to: enteredTo,
             sub: enteredSuject,
             content: editorState.getCurrentContent().getPlainText()
+        };
+
+        const receiveMail = enteredTo
+        const receiverEmail = receiveMail.replace(/[@.]/g, '')
+        console.log(receiverEmail)
+
+        //sending to my outbox
+        try {
+            const response = await fetch(`https://mailbox2-1cc12-default-rtdb.firebaseio.com/${senderEmail}/outbox.json`,
+                {
+                    method: "POST",
+                    body: JSON.stringify(mail)
+                })
+
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data)
+            } else {
+                const data = await response.json()
+                console.log(data)
+            }
+
+        } catch (err) {
+            alert('compose', err);
         }
+        //sending to user inbox
 
-        const response = await fetch('https://mailbox2-1cc12-default-rtdb.firebaseio.com//mails.json',
-            {
-                method: "POST",
-                body: JSON.stringify(mail)
-            })
+        try {
+            const response = await fetch(
+                `https://mailbox2-1cc12-default-rtdb.firebaseio.com/${receiverEmail}/inbox.json`,
+                {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        from: enteredTo,
+                        subject: enteredSuject,
+                        content: editorState.getCurrentContent().getPlainText(),
+                    }),
+                })
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data)
+            }
+            else {
+                const data = await response.json();
+                console.log(data)
+            }
 
-        const data = await response.json()
-        console.log(data)
+
+        } catch (err) {
+            alert(err)
+            console.log(err)
+        }
         toInputRef.current.value = ""
         subjectInputref.current.value = ""
         setEditorState("")

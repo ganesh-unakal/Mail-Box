@@ -28,6 +28,11 @@ const Header = () => {
             ComposeEmail
           </Link>}
 
+          {isLoggedin && <Link to='/inbox' className='text-light text-decoration-none m-2'>
+            Inbox
+          </Link>}
+
+
           {isLoggedin && <Link
             to='/login'
             className='text-light text-decoration-none m-2'
@@ -35,7 +40,7 @@ const Header = () => {
             logout
           </Link>}
 
-
+         
         </Nav>
       </Container>
 
