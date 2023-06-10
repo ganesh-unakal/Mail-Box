@@ -20,6 +20,13 @@ const inboxSlice = createSlice({
             const key = localStorage.getItem("key clicked");
             state.mails[key].read = true
             state.unreadCount = totUnreadCount(state.mails)
+        },
+        deleteMail(state,action) {
+            const mails = state.mails
+            const key = action.payload
+            delete mails[key]
+            state.unreadCount = totUnreadCount(mails)
+
         }
 
     }
