@@ -1,12 +1,10 @@
 import React from "react";
-import { useState } from "react";
 import { useEffect } from "react";
 import { Container, ListGroup, Modal } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { inboxActions } from "./store/InboxSlice";
 import { fetchData } from "./store/InboxSlice";
 import { updateData } from "./store/InboxSlice";
-import { Button } from "bootstrap";
 
 const Inbox = () => {
   const userEmail = useSelector((state) => state.auth.userEmail);

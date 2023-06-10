@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 const Header = () => {
 
   const dispatch = useDispatch();
-  const isLoggedin = useSelector(state => state.authentication.isAuthenticated)
+  const isLoggedin = useSelector(state => state.auth.isAuthenticated)
   console.log(authActions)
   const logoutHandler = () => {
     dispatch(authActions.logout())
@@ -32,6 +32,9 @@ const Header = () => {
             Inbox
           </Link>}
 
+          {isLoggedin && <Link to='/sent' className='text-light text-decoration-none m-2'>
+            Outbox
+          </Link>}
 
           {isLoggedin && <Link
             to='/login'
