@@ -10,14 +10,17 @@ const Inbox = () => {
   const userEmail = useSelector((state) => state.auth.userEmail);
   const email = userEmail.replace(/[@.]/g, "");
   // const [mails, setMails] = useState([]);
-  const mails = useSelector((state) => state.inbox.mails);
+  const mails = useSelector((state) => state.inbox.inboxMails);
+  console.log(mails)
   const dispatch = useDispatch();
   const unReadMails = useSelector((state) => state.inbox.unreadCount);
   const selectedEmail = useSelector(state => state.inbox.selectedEmail)
   
 
   useEffect(()=> {
-    dispatch(fetchData(email))
+    const reload = () => dispatch(fetchData(email));
+    const intervalId = setInterval(reload, 2000)
+    return () => clearInterval(intervalId)
   }, [email, dispatch])
 
 
@@ -28,6 +31,7 @@ const Inbox = () => {
       dispatch(inboxActions.setSelectedEmail(mails[key]))
       dispatch(updateData(key, email))
   }
+  
 
   const closeModal = () => {
     dispatch(inboxActions.setSelectedEmail(null))
