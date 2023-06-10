@@ -10,7 +10,7 @@ const ComposeMail = () => {
     const [editorState, setEditorState] = useState()
     const toInputRef = useRef()
     const subjectInputref = useRef()
-    const userEmail = useSelector(state => state.authentication.userEmail)
+    const userEmail = useSelector(state => state.auth.userEmail)
     const senderEmail = userEmail.replace(/[@.]/g, '')
 
     const onEditorStateChange = (newEditor) => {
@@ -61,9 +61,10 @@ const ComposeMail = () => {
                 {
                     method: 'POST',
                     body: JSON.stringify({
-                        from: enteredTo,
+                        from: userEmail,
                         subject: enteredSuject,
                         content: editorState.getCurrentContent().getPlainText(),
+                        read: false
                     }),
                 })
             if (response.ok) {

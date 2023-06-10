@@ -1,10 +1,11 @@
-import authentication from "./authentication";
-import {configureStore} from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import authSlice from './authentication';
+import inboxSlice from './InboxSlice';
 
 const store = configureStore({
   reducer: {
-    authentication : authSlice
+    auth: authSlice,
+    inbox: inboxSlice
   }
 })
 
